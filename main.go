@@ -12,7 +12,7 @@ func countTo(s int) iter.Seq[int] {
 	// функция-итератор должна ПРИ КАЖДОЙ ИТЕРАЦИИ возвращать такое значение:
 	return func(yield func(int) bool) {
 		// описываем свой итератор (цикл или что-то типа того)
-		for i := 0; i <= s; i++ {
+		for i := 1; i <= s; i++ {
 			// Здесь производится возврат значения итератора: yield(i).
 			// Если он false, выходим из функции. (yield приобретает значение false при достижении конца перебора или вручную)
 			if !yield(i) {
@@ -41,8 +41,17 @@ func Backwards[V any](s []V) iter.Seq[V] {
 
 //endregion
 
+// region Пример для функций, принимающих итераторы
+func PrintElement[V any](s iter.Seq[V]) {
+	for v := range s {
+		fmt.Println(v)
+	}
+}
+
+//endregion
+
 func main() {
-	//region Вызов простейшей функции-итератора (countTo) в рамках range
+	//region Вызов простейшей функции-итератора (countTo)
 	fmt.Println("---------------------------------------------")
 	fmt.Println("Вывод простейшей функции-итератора - countTo:")
 	// вызываем функцию-итератор
@@ -51,7 +60,7 @@ func main() {
 	}
 	//endregion
 
-	//region Вызов функции-итератора для слайса
+	//region Вызов функции-итератора для слайса (Backwards)
 	fmt.Println("----------------------------------------------")
 	fmt.Println("Вывод функции-итератора для слайса - Backwards")
 	nums := []int{1, 2, 3, 4, 5}
@@ -60,6 +69,13 @@ func main() {
 	for v := range Backwards(nums) {
 		fmt.Println(v)
 	}
+
+	//endregion
+
+	//region Вызов функции, принимающей итератор (PrintElement)
+	fmt.Println("----------------------------------------------")
+	fmt.Println("Вывод функции, принимающей итератор - PrintElement")
+	PrintElement(Backwards(nums))
 
 	//endregion
 
