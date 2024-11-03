@@ -31,11 +31,11 @@ func Backwards[V any](s []V) iter.Seq[V] {
 	return func(yield func(V) bool) {
 		// пишем собственную реализацию итератора
 		for i := len(s) - 1; i >= 0; i-- {
+			// возвращаем значение итератор
 			if !yield(s[i]) {
 				return
 			}
 		}
-
 	}
 }
 
@@ -54,8 +54,8 @@ func main() {
 	//region Вызов функции-итератора для слайса
 	fmt.Println("----------------------------------------------")
 	fmt.Println("Вывод функции-итератора для слайса - Backwards")
-	nums := []int{0, 1, 2, 3, 4, 5}
-	// 5, 4, 3, 2, 1, 0
+	nums := []int{1, 2, 3, 4, 5}
+	// 5, 4, 3, 2, 1
 	// вызываем функцию-итератор для слайса
 	for v := range Backwards(nums) {
 		fmt.Println(v)
