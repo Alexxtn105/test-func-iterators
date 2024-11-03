@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"golang.org/x/exp/constraints"
 	"iter"
+	"slices"
 )
 
 //region Простейший пример
@@ -50,6 +52,17 @@ func PrintElement[V any](s iter.Seq[V]) {
 
 //endregion
 
+// region Примеры дженериков (comparable и constraints.Ordered)
+func testComparable[s comparable](v s) s {
+	return v
+}
+
+func testOrdered[s constraints.Ordered](v s) s {
+	return v
+}
+
+//endregion
+
 func main() {
 	//region Вызов простейшей функции-итератора (countTo)
 	fmt.Println("---------------------------------------------")
@@ -79,4 +92,11 @@ func main() {
 
 	//endregion
 
+	//region Встроенные функции-итераторы (в пакете slices)
+	fmt.Println("----------------------------------------------")
+	fmt.Println("Вывод функции, принимающей итератор - PrintElement")
+	for _, v := range slices.Backward(nums) {
+		fmt.Println(v)
+	}
+	//endregion
 }
